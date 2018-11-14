@@ -2,16 +2,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.shininet.bukkit</groupId>
-    <artifactId>PlayerHeads-crosscompatible</artifactId>
+    <artifactId>PlayerHeads-glowstone</artifactId>
     <packaging>jar</packaging>
     <version>4.7.1-SNAPSHOT</version>
-    <name>PlayerHeads-crosscompatible</name>
+    <name>PlayerHeads-glowstone</name>
 
     <organization>
         <name>ShiniNet</name>
         <url>http://www.shininet.org</url>
     </organization>
-    
+
     <licenses>
         <license>
             <name>Mozilla Public License 2.0</name>
@@ -53,6 +53,10 @@
             <id>md_5-releases</id>
             <url>http://repo.md-5.net/content/repositories/releases/</url>
         </repository>
+		<repository>
+			<id>glowstone-repo</id>
+			<url>https://repo.glowstone.net/content/repositories/snapshots/</url>
+		</repository>
     </repositories>
 
     <dependencies>
@@ -95,27 +99,23 @@
         </dependency>
         <dependency>
             <groupId>org.powermock</groupId>
-            <artifactId>powermock-api-mockito-common</artifactId>     
+            <artifactId>powermock-api-mockito-common</artifactId>
             <version>1.7.4</version>
             <scope>test</scope>
         </dependency>
-        
-        
-        
+
+
+
+        <!-- Glowstone server dependency -->
         <dependency>
-            <groupId>com.mojang</groupId>
-            <artifactId>authlib</artifactId>
-            <version>1.5.25</version>
-        </dependency>
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.8-R0.1-SNAPSHOT</version>
+                <groupId>net.glowstone</groupId>
+                <artifactId>glowstone</artifactId>
+                <version>2018.8.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.8-R0.1-SNAPSHOT</version>
+            <version>1.12.2-R0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>fr.neatmonster</groupId>
@@ -210,7 +210,7 @@
                     </execution>
                 </executions>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -239,7 +239,7 @@
                     </execution>
                 </executions>
             </plugin>
-            
+
         </plugins>
         <pluginManagement>
             <plugins>

@@ -3,7 +3,7 @@
  *  License, v. 2.0. If a copy of the MPL was not distributed with this
  *  file, You can obtain one at http://mozilla.org/MPL/2.0/ .
  */
-package com.github.crashdemons.playerheads.compatibility.craftbukkit_1_8;
+package com.github.crashdemons.playerheads.compatibility.glowstone_1_12;
 
 import com.github.crashdemons.playerheads.ProfileUtils;
 import com.github.crashdemons.playerheads.compatibility.CompatibilityProvider;
@@ -25,7 +25,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
 /**
- * CompatibilityProvider Implementation for 1.8-1.12.2 support.
+ * CompatibilityProvider Implementation for 1.12 support.
  * @author crashdemons (crashenator at gmail.com)
  */
 @SuppressWarnings( "deprecation" )
@@ -46,7 +46,7 @@ public class Provider implements CompatibilityProvider {
     @Override public SkullDetails getSkullDetails(SkullType type){ return new SkullDetails_18(type); }
     @Override public boolean getKeepInventory(World world){ return Boolean.valueOf(world.getGameRuleValue("keepInventory")); }
     @Override public SkullType getSkullType(ItemStack s){
-        if(s.getType()!=Material.SKULL_ITEM) return null;
+        if(s.getType()!=Material.LEGACY_SKULL_ITEM) return null;
         short dmg = s.getDurability();
         try{
             return SkullType.values()[dmg];//TODO: needs testing !
@@ -55,7 +55,7 @@ public class Provider implements CompatibilityProvider {
         }
     }
     @Override public SkullType getSkullType(BlockState s){
-        if(s.getType()!=Material.SKULL) return null;
+        if(s.getType()!=Material.LEGACY_SKULL) return null;
         Skull skullState = (Skull) s;
         return adaptSkullType(skullState.getSkullType());
     }

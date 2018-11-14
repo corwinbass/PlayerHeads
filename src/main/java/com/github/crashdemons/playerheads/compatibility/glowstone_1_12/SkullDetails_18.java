@@ -3,7 +3,7 @@
  *  License, v. 2.0. If a copy of the MPL was not distributed with this
  *  file, You can obtain one at http://mozilla.org/MPL/2.0/ .
  */
-package com.github.crashdemons.playerheads.compatibility.craftbukkit_1_8;
+package com.github.crashdemons.playerheads.compatibility.glowstone_1_12;
 
 import com.github.crashdemons.playerheads.compatibility.RuntimeReferences;
 import com.github.crashdemons.playerheads.compatibility.SkullDetails;
@@ -24,8 +24,8 @@ class SkullDetails_18 implements SkullDetails {
     private final SkullType skullType;
     
     public SkullDetails_18(SkullType skullType){
-        materialBlock=Material.SKULL;
-        materialItem=Material.SKULL_ITEM;
+        materialBlock=Material.LEGACY_SKULL;
+        materialItem=Material.LEGACY_SKULL_ITEM;
         if( skullType==null || (skullType==SkullType.DRAGON && Version.checkUnder(1, 9)) ){
             this.skullType=SkullType.PLAYER;
             datavalue=(short)SkullType.PLAYER.ordinal();
