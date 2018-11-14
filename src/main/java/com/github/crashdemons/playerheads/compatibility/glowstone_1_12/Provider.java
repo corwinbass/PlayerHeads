@@ -10,6 +10,8 @@ import com.github.crashdemons.playerheads.compatibility.CompatibilityProvider;
 import com.github.crashdemons.playerheads.compatibility.SkullDetails;
 import com.github.crashdemons.playerheads.compatibility.SkullType;
 import com.github.crashdemons.playerheads.compatibility.Version;
+import java.util.UUID;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
@@ -22,7 +24,13 @@ import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Skeleton.SkeletonType;
 import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import net.glowstone.entity.meta.profile.GlowPlayerProfile;
+import net.glowstone.util.nbt.CompoundTag;
+import com.destroystokyo.paper.profile.*;
+import java.util.Arrays;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * CompatibilityProvider Implementation for 1.12 support.
@@ -31,8 +39,8 @@ import org.bukkit.inventory.meta.SkullMeta;
 @SuppressWarnings( "deprecation" )
 public class Provider implements CompatibilityProvider {
     public Provider(){}
-    @Override public String getType(){ return "craftbukkit"; }
-    @Override public String getVersion(){ return "1.8"; }
+    @Override public String getType(){ return "glowstone"; }
+    @Override public String getVersion(){ return "1.12"; }
     @Override public OfflinePlayer getOwningPlayerDirect(SkullMeta skullItemMeta){ return ProfileUtils.getProfilePlayer(skullItemMeta); }
     @Override public OfflinePlayer getOwningPlayerDirect(Skull skullBlockState){ return ProfileUtils.getProfilePlayer(skullBlockState); }
     @Override public String getOwnerDirect(SkullMeta skullItemMeta){ return skullItemMeta.getOwner(); }
@@ -125,6 +133,62 @@ public class Provider implements CompatibilityProvider {
         }
         return e.getType().name().toUpperCase();
     }
+    
+    private CompoundTag createNBT(UUID uuid, String textures){
+        CompoundTag texture_nbt = new CompoundTag();
+        texture_nbt.putString("Value",textures);
+        CompoundTag textures_nbt = new CompoundTag();
+        textures_nbt.putCompoundList("textures", Arrays.asList(texture_nbt) );
+        
+        CompoundTag owner_nbt = new CompoundTag();
+        if(uuid!=null) owner_nbt.putString("Id", uuid.toString());
+        owner_nbt.putCompound("Properties",textures_nbt);
+        
+        //CompoundTag container = new CompoundTag();
+        //container.putCompound("Owner", owner_nbt);
+        return owner_nbt;
+    }
+    
+    private PlayerProfile createProfile(UUID uuid, String textures){
+        System.out.println("UUID: "+uuid.toString());
+        CompoundTag ownerNBT = createNBT(uuid,textures);
+        System.out.println("Constructed NBT: "+ownerNBT.toString());
+        
+        GlowPlayerProfile profile = null;
+        try{
+            CompletableFuture<GlowPlayerProfile> futureProfile = GlowPlayerProfile.fromNbt(ownerNBT);
+            profile=futureProfile.get();
+            //profile.setId(uuid);//I get Not Yet Implemented when using this... sigh.
+            profile.complete();
+        }catch(Exception e){
+            e.printStackTrace();
+            throw new IllegalStateException("Profile construction failed",e);
+        }
+        //GlowPlayerProfile profile=new GlowPlayerProfile(null,uuid,false);
+        //PlayerProfile profile = Bukkit.createProfile(uuid);
+        //Set<ProfileProperty> properties = profile.getProperties();
+        //properties.add(new ProfileProperty("textures", textures));
+        System.out.println("Interpreted NBT: "+profile.toNbt().toString());
+        //GlowPlayerProfile.fromNbt(CompoundTag)
+        return profile;
+    }
+    @Override public boolean setProfile(ItemMeta headMeta, UUID uuid, String texture){
+        //return ProfileUtils.setProfile(headMeta, uuid, texture);
+        //TODO: find glowstone implementations for texturing!
+        OfflinePlayer op=Bukkit.getOfflinePlayer(uuid);
+        SkullMeta skullMeta = (SkullMeta) headMeta;
+        skullMeta.setPlayerProfile(createProfile(uuid,texture));
+        return true;
+    }
+    @Override public boolean setProfile(Skull headBlockState, UUID uuid, String texture){
+        //return ProfileUtils.setProfile(headBlockState, uuid, texture);
+        //TODO: find glowstone implementations for texturing!
+        //OfflinePlayer op=Bukkit.getOfflinePlayer(uuid);
+        //setPlayerProfile(headBlockState, createProfile(uuid,texture));
+        //headBlockState.setPlayerProfile(createProfile(uuid,texture));// doesn't exist in this version of paper-api
+        return false;
+    }
+    
     
     
     private SkullType adaptSkullType(org.bukkit.SkullType bukkitType){
