@@ -153,23 +153,6 @@
   </build>
   <repositories>
     <repository>
-      <id>mojang</id>
-      <name>Mojang's Repository</name>
-      <url>https://libraries.minecraft.net/</url>
-    </repository>
-    <repository>
-      <id>spigot-group-repo</id>
-      <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
-    </repository>
-    <repository>
-      <id>spigot-repo</id>
-      <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-    </repository>
-    <repository>
-      <id>md_5-releases</id>
-      <url>http://repo.md-5.net/content/repositories/releases/</url>
-    </repository>
-    <repository>
       <id>glowstone-repo</id>
       <url>https://repo.glowstone.net/content/repositories/snapshots/</url>
     </repository>
@@ -236,28 +219,6 @@
       <artifactId>glowstone</artifactId>
       <version>2018.8.0-SNAPSHOT</version>
       <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.bukkit</groupId>
-      <artifactId>bukkit</artifactId>
-      <version>1.12.2-R0.1-SNAPSHOT</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>fr.neatmonster</groupId>
-      <artifactId>ncpplugin</artifactId>
-      <version>static</version>
-      <scope>compile</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>bukkit</artifactId>
-          <groupId>org.bukkit</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>craftbukkit</artifactId>
-          <groupId>org.bukkit</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
   </dependencies>
   <properties>

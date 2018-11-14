@@ -46,7 +46,7 @@ public class Provider implements CompatibilityProvider {
     @Override public SkullDetails getSkullDetails(SkullType type){ return new SkullDetails_18(type); }
     @Override public boolean getKeepInventory(World world){ return Boolean.valueOf(world.getGameRuleValue("keepInventory")); }
     @Override public SkullType getSkullType(ItemStack s){
-        if(s.getType()!=Material.LEGACY_SKULL_ITEM) return null;
+        if(s.getType()!=Material.SKULL_ITEM) return null;
         short dmg = s.getDurability();
         try{
             return SkullType.values()[dmg];//TODO: needs testing !
@@ -55,7 +55,7 @@ public class Provider implements CompatibilityProvider {
         }
     }
     @Override public SkullType getSkullType(BlockState s){
-        if(s.getType()!=Material.LEGACY_SKULL) return null;
+        if(s.getType()!=Material.SKULL) return null;
         Skull skullState = (Skull) s;
         return adaptSkullType(skullState.getSkullType());
     }

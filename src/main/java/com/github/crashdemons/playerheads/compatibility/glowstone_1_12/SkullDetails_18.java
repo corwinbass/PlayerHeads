@@ -24,8 +24,8 @@ class SkullDetails_18 implements SkullDetails {
     private final SkullType skullType;
     
     public SkullDetails_18(SkullType skullType){
-        materialBlock=Material.LEGACY_SKULL;
-        materialItem=Material.LEGACY_SKULL_ITEM;
+        materialBlock=Material.SKULL;
+        materialItem=Material.SKULL_ITEM;
         if( skullType==null || (skullType==SkullType.DRAGON && Version.checkUnder(1, 9)) ){
             this.skullType=SkullType.PLAYER;
             datavalue=(short)SkullType.PLAYER.ordinal();
