@@ -26,7 +26,7 @@ import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
-import net.glowstone.entity.meta.profile.GlowPlayerProfile;
+//import net.glowstone.entity.meta.profile.GlowPlayerProfile;
 import net.glowstone.util.nbt.CompoundTag;
 import com.destroystokyo.paper.profile.*;
 import java.util.Arrays;
@@ -134,51 +134,22 @@ public class Provider implements CompatibilityProvider {
         return e.getType().name().toUpperCase();
     }
     
-    private CompoundTag createNBT(UUID uuid, String textures){
-        CompoundTag texture_nbt = new CompoundTag();
-        texture_nbt.putString("Value",textures);
-        CompoundTag textures_nbt = new CompoundTag();
-        textures_nbt.putCompoundList("textures", Arrays.asList(texture_nbt) );
-        
-        CompoundTag owner_nbt = new CompoundTag();
-        if(uuid!=null) owner_nbt.putString("Id", uuid.toString());
-        owner_nbt.putCompound("Properties",textures_nbt);
-        
-        //CompoundTag container = new CompoundTag();
-        //container.putCompound("Owner", owner_nbt);
-        return owner_nbt;
-    }
-    
     private PlayerProfile createProfile(UUID uuid, String textures){
-        System.out.println("UUID: "+uuid.toString());
-        CompoundTag ownerNBT = createNBT(uuid,textures);
-        System.out.println("Constructed NBT: "+ownerNBT.toString());
+        com.destroystokyo.paper.profile.PlayerProfile profile = Bukkit.createProfile(uuid,"X");
+        profile.setProperty(new ProfileProperty("textures",textures));
         
-        GlowPlayerProfile profile = null;
-        try{
-            CompletableFuture<GlowPlayerProfile> futureProfile = GlowPlayerProfile.fromNbt(ownerNBT);
-            profile=futureProfile.get();
-            //profile.setId(uuid);//I get Not Yet Implemented when using this... sigh.
-            profile.complete();
-        }catch(Exception e){
-            e.printStackTrace();
-            throw new IllegalStateException("Profile construction failed",e);
-        }
-        //GlowPlayerProfile profile=new GlowPlayerProfile(null,uuid,false);
-        //PlayerProfile profile = Bukkit.createProfile(uuid);
-        //Set<ProfileProperty> properties = profile.getProperties();
-        //properties.add(new ProfileProperty("textures", textures));
-        System.out.println("Interpreted NBT: "+profile.toNbt().toString());
-        //GlowPlayerProfile.fromNbt(CompoundTag)
+        profile.complete();
         return profile;
     }
     @Override public boolean setProfile(ItemMeta headMeta, UUID uuid, String texture){
         //return ProfileUtils.setProfile(headMeta, uuid, texture);
         //TODO: find glowstone implementations for texturing!
-        OfflinePlayer op=Bukkit.getOfflinePlayer(uuid);
+        
+        /*OfflinePlayer op=Bukkit.getOfflinePlayer(uuid);
         SkullMeta skullMeta = (SkullMeta) headMeta;
-        skullMeta.setPlayerProfile(createProfile(uuid,texture));
-        return true;
+        skullMeta.setPlayerProfile(createProfile(uuid,texture));*/
+        //the above works but causes nbt errors when sending the data.
+        return false;
     }
     @Override public boolean setProfile(Skull headBlockState, UUID uuid, String texture){
         //return ProfileUtils.setProfile(headBlockState, uuid, texture);
