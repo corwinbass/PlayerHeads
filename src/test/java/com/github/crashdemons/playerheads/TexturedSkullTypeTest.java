@@ -6,7 +6,7 @@
 package com.github.crashdemons.playerheads;
 
 import com.github.crashdemons.playerheads.compatibility.CompatibleSkullMaterial;
-import com.github.crashdemons.playerheads.compatibility.craftbukkit_1_13.Provider;
+//import com.github.crashdemons.playerheads.compatibility.craftbukkit_1_13.Provider;
 import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
@@ -31,7 +31,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 public class TexturedSkullTypeTest {
     
     public TexturedSkullTypeTest() {
-        Provider x;
+        //Provider x;
         Mocks.setupFakeServerVersion();
     }
     
