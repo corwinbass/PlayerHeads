@@ -27,7 +27,7 @@
     <scm>
         <developerConnection>scm:git:git@github.com:crashdemons/PlayerHeads.git</developerConnection>
         <connection>scm:git:git://github.com/crashdemons/PlayerHeads.git</connection>
-        <url>https://github.com/crashdemons/PlayerHeads/tree/glowstone-support/</url>
+        <url>https://github.com/crashdemons/PlayerHeads/tree/glowstone-1.12-support/</url>
     </scm>
 
     <issueManagement>
