@@ -20,6 +20,7 @@ public class Version {
     private static boolean isInit=false;
     
     private static String[][] serverTypeByClass = {
+        {"com.github.crashdemons.playerheads.compatibility.faketestserver_1_0.Provider","faketestserver"},
         {"net.glowstone.GlowServer","glowstone"},
         {"org.github.paperspigot.PaperSpigotConfig","paper"},
         {"com.destroystokyo.paper.PaperConfig","paper"},
