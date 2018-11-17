@@ -32,7 +32,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 public class Provider implements CompatibilityProvider {
     public Provider(){}
     @Override public String getType(){ return "faketestserver"; }
-    @Override public String getVersion(){ return "1.13"; }
+    @Override public String getVersion(){ return "1.0"; }
     @Override public OfflinePlayer getOwningPlayerDirect(SkullMeta skullItemMeta){ return null; }
     @Override public OfflinePlayer getOwningPlayerDirect(Skull skullBlockState){ return null; }
     @Override public String getOwnerDirect(SkullMeta skullItemMeta){ return skullItemMeta.getOwner(); }

@@ -5,6 +5,7 @@
  */
 package com.github.crashdemons.playerheads.compatibility;
 
+import com.github.crashdemons.playerheads.compatibility.faketestserver_1_0.Provider;
 import com.github.crashdemons.playerheads.testutils.Mocks;
 import com.github.crashdemons.playerheads.testutils.TestOutput;
 import org.bukkit.Bukkit;
@@ -29,7 +30,7 @@ public class CompatibilityTest {
     @PrepareForTest({Compatibility.class,Bukkit.class})
     public void testInit() {
         out.println("init");
-        Compatibility.init();
+        assertEquals(false,Compatibility.init());
     }
 
     @Test
@@ -40,44 +41,45 @@ public class CompatibilityTest {
         Compatibility.init();
         assertEquals(true, Compatibility.isProviderAvailable());
     }
-/*
-    @Test
-    public void testRegisterProvider() {
-        System.out.println("registerProvider");
-        CompatibilityProvider obj = null;
-        Compatibility.registerProvider(obj);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
     @Test
+    @PrepareForTest({Compatibility.class,Bukkit.class})
     public void testGetProvider() {
-        System.out.println("getProvider");
-        CompatibilityProvider expResult = null;
-        CompatibilityProvider result = Compatibility.getProvider();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        out.println("getProvider");
+        Compatibility.init();
+        assertEquals("faketestserver",Compatibility.getProvider().getType());
+    }
+    
+    
+    @Test
+    @PrepareForTest({Compatibility.class,Bukkit.class})
+    public void testRegisterProvider() {
+        out.println("registerProvider");
+        Provider pro = new Provider();
+        Compatibility.registerProvider(pro);
+        assertEquals("faketestserver",Compatibility.getProvider().getType());
     }
 
+
     @Test
+    @PrepareForTest({Compatibility.class,Bukkit.class})
     public void testGetRecommendedProviderType() {
-        System.out.println("getRecommendedProviderType");
-        String expResult = "";
+        out.println("getRecommendedProviderType");
+        String expResult = "faketestserver";
+        Compatibility.init();
         String result = Compatibility.getRecommendedProviderType();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     @Test
+    @PrepareForTest({Compatibility.class,Bukkit.class})
     public void testGetRecommendedProviderVersion() {
-        System.out.println("getRecommendedProviderVersion");
-        String expResult = "";
+        out.println("getRecommendedProviderVersion");
+        String expResult = "1.13";
+        Compatibility.init();
         String result = Compatibility.getRecommendedProviderVersion();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals("1.0",Compatibility.getProvider().getVersion());
     }
-    */
+    
 }
