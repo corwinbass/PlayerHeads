@@ -5,6 +5,7 @@
  */
 package com.github.crashdemons.playerheads;
 
+import com.github.crashdemons.playerheads.compatibility.Compatibility;
 import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -25,7 +26,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
  * @author crash
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Bukkit.class})
+@PrepareForTest({Bukkit.class,Compatibility.class})
 abstract public class Mocks {
     
     public static void setupFakeServerVersion(){
@@ -34,7 +35,6 @@ abstract public class Mocks {
             when(Bukkit.getVersion()).thenReturn("git-SomeWackyServerFork-4454-4ad3bc (MC: 1.13.1)");
         }catch(Exception e){
             e.printStackTrace();
-            
         }
     }
     
