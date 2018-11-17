@@ -40,6 +40,7 @@ public class Compatibility {
             {1,12}
         });
         support.put("faketestserver", new Integer[][]{//to enable testing
+            {1,13},
             {1,0}
         });
     }
