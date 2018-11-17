@@ -29,10 +29,11 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @PrepareForTest({Bukkit.class,Compatibility.class})
 abstract public class Mocks {
     
-    public static void setupFakeServerVersion(){
+    public static void setupFakeServerSupport(){
         try{
             PowerMockito.mockStatic(Bukkit.class);
             when(Bukkit.getVersion()).thenReturn("git-SomeWackyServerFork-4454-4ad3bc (MC: 1.13.1)");
+            if(!Compatibility.isProviderAvailable()) Compatibility.init();
         }catch(Exception e){
             e.printStackTrace();
         }

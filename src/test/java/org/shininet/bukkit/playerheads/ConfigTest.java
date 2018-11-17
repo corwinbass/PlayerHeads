@@ -24,8 +24,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 public class ConfigTest {
     
     public ConfigTest() {
-        Mocks.setupFakeServerVersion();
-        Compatibility.init();
+        Mocks.setupFakeServerSupport();
     }
 
     @Test

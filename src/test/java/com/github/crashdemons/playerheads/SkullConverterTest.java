@@ -6,6 +6,7 @@
 package com.github.crashdemons.playerheads;
 
 //import com.github.crashdemons.playerheads.compatibility.craftbukkit_1_13.Provider;
+import com.github.crashdemons.playerheads.compatibility.Compatibility;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -30,7 +31,7 @@ public class SkullConverterTest {
     
     public SkullConverterTest() {
         //Provider x;
-        Mocks.setupFakeServerVersion();
+        Mocks.setupFakeServerSupport();
     }
 
     /*
