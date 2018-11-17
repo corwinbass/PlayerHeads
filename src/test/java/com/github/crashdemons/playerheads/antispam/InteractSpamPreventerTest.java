@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.github.crashdemons.playerheads;
+package com.github.crashdemons.playerheads.antispam;
 
+import com.github.crashdemons.playerheads.Mocks;
 import com.github.crashdemons.playerheads.antispam.InteractSpamPreventer;
 //import com.github.crashdemons.playerheads.compatibility.craftbukkit_1_13.Provider;
 import org.bukkit.Material;
