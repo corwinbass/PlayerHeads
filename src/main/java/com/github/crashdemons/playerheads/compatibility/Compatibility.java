@@ -72,6 +72,10 @@ public class Compatibility {
         return !isUsingFallback;
     }
     
+    public boolean isProviderAvailable(){
+        return provider!=null;
+    }
+    
     /**
      * Registers an compatibility provider (a bukkit-version-specific implementation) with the compatibility class.
      * 
