@@ -37,7 +37,6 @@ public class SkullConverterTest {
         Mocks.setupFakeServerSupport();
     }
 
-    /*
     @Test
     public void testDropConfigFromSkullType_Player() {
         out.println("dropConfigFromSkullType Player");
@@ -55,6 +54,7 @@ public class SkullConverterTest {
     }
     
 
+    /*
     @Test
     public void testSkullTypeFromEntityType_Unsupported() {
         out.println("skullTypeFromEntityType_Unsupported");
