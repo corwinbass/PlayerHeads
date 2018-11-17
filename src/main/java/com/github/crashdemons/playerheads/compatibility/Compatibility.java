@@ -72,7 +72,7 @@ public class Compatibility {
         return !isUsingFallback;
     }
     
-    public boolean isProviderAvailable(){
+    public static boolean isProviderAvailable(){
         return provider!=null;
     }
     
