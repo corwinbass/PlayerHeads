@@ -6,6 +6,8 @@
 package com.github.crashdemons.playerheads;
 
 //import com.github.crashdemons.playerheads.compatibility.craftbukkit_1_13.Provider;
+import com.github.crashdemons.playerheads.testutils.Mocks;
+import com.github.crashdemons.playerheads.testutils.TestOutput;
 import com.github.crashdemons.playerheads.compatibility.Compatibility;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -29,6 +31,7 @@ import org.shininet.bukkit.playerheads.LegacySkullType;
 @Ignore
 public class SkullConverterTest {
     
+    private final TestOutput out=new TestOutput(this);
     public SkullConverterTest() {
         //Provider x;
         Mocks.setupFakeServerSupport();
@@ -37,7 +40,7 @@ public class SkullConverterTest {
     /*
     @Test
     public void testDropConfigFromSkullType_Player() {
-        System.out.println("dropConfigFromSkullType Player");
+        out.println("dropConfigFromSkullType Player");
         String expResult = "droprate";
         String result = TexturedSkullType.PLAYER.getConfigName();//SkullConverter.dropConfigFromSkullType(TexturedSkullType.PLAYER);
         assertEquals(expResult, result);
@@ -45,7 +48,7 @@ public class SkullConverterTest {
     
     @Test
     public void testDropConfigFromSkullType_Mob() {
-        System.out.println("dropConfigFromSkullType Player");
+        out.println("dropConfigFromSkullType Player");
         String expResult = "witherskeletondroprate";
         String result = TexturedSkullType.WITHER_SKELETON.getConfigName();//SkullConverter.dropConfigFromSkullType(TexturedSkullType.WITHER_SKELETON);
         assertEquals(expResult, result);
@@ -54,21 +57,21 @@ public class SkullConverterTest {
 
     @Test
     public void testSkullTypeFromEntityType_Unsupported() {
-        System.out.println("skullTypeFromEntityType_Unsupported");
+        out.println("skullTypeFromEntityType_Unsupported");
         TexturedSkullType expResult = null;
         TexturedSkullType result = SkullConverter.skullTypeFromEntityType(EntityType.ARROW);
         assertEquals(expResult, result);
     }
     @Test
     public void testSkullTypeFromEntityType_Player() {
-        System.out.println("skullTypeFromEntityType_Player");
+        out.println("skullTypeFromEntityType_Player");
         TexturedSkullType expResult = TexturedSkullType.PLAYER;
         TexturedSkullType result = SkullConverter.skullTypeFromEntityType(EntityType.PLAYER);
         assertEquals(expResult, result);
     }
     @Test
     public void testSkullTypeFromEntityType_Mob() {
-        System.out.println("skullTypeFromEntityType_Mob");
+        out.println("skullTypeFromEntityType_Mob");
         TexturedSkullType expResult = TexturedSkullType.WITHER_SKELETON;
         TexturedSkullType result = SkullConverter.skullTypeFromEntityType(EntityType.WITHER_SKELETON);
         assertEquals(expResult, result);
@@ -77,7 +80,7 @@ public class SkullConverterTest {
     
     @Test
     public void testUpgradeSkullTypeLegacy_Valid() {
-        System.out.println("upgradeSkullTypeLegacy Valid");
+        out.println("upgradeSkullTypeLegacy Valid");
         LegacySkullType oldType = LegacySkullType.IRON_GOLEM;
         TexturedSkullType expResult = TexturedSkullType.IRON_GOLEM;
         TexturedSkullType result = SkullConverter.upgradeSkullTypeLegacy(oldType);
@@ -86,7 +89,7 @@ public class SkullConverterTest {
 
     @Test
     public void testEntityTypeFromSkullType_Player() {
-        System.out.println("entityTypeFromSkullType Player");
+        out.println("entityTypeFromSkullType Player");
         TexturedSkullType skullType = TexturedSkullType.PLAYER;
         EntityType expResult = EntityType.PLAYER;
         EntityType result = SkullConverter.entityTypeFromSkullType(skullType);
@@ -94,7 +97,7 @@ public class SkullConverterTest {
     }
     @Test
     public void testEntityTypeFromSkullType_Mob() {
-        System.out.println("entityTypeFromSkullType Mob");
+        out.println("entityTypeFromSkullType Mob");
         TexturedSkullType skullType = TexturedSkullType.BLAZE;
         EntityType expResult = EntityType.BLAZE;
         EntityType result = SkullConverter.entityTypeFromSkullType(skullType);
@@ -102,7 +105,7 @@ public class SkullConverterTest {
     }
     @Test
     public void testEntityTypeFromSkullType_Mob_1_13() {
-        System.out.println("entityTypeFromSkullType Mob 1.13");
+        out.println("entityTypeFromSkullType Mob 1.13");
         TexturedSkullType skullType = TexturedSkullType.TROPICAL_FISH;
         EntityType expResult = EntityType.TROPICAL_FISH;
         EntityType result = SkullConverter.entityTypeFromSkullType(skullType);
@@ -111,26 +114,26 @@ public class SkullConverterTest {
     
     @Test
     public void testSkullTypeFromBlockState_NotAHead(){
-        System.out.println("testSkullTypeFromBlockState not a head");
+        out.println("testSkullTypeFromBlockState not a head");
         BlockState state = Mocks.getMockBlockState_Stone();
         assertEquals(SkullConverter.skullTypeFromBlockState(state),null);
     }
         @Test
     public void testSkullTypeFromBlockState_NullPlayerhead(){
-        System.out.println("testSkullTypeFromBlockState null playerhead");
+        out.println("testSkullTypeFromBlockState null playerhead");
         BlockState state = Mocks.getMockBlockState_PHead(null);
         assertEquals(SkullConverter.skullTypeFromBlockState(state),TexturedSkullType.PLAYER);
     }
     @Test
     public void testSkullTypeFromBlockState_UnknownPlayerhead(){
-        System.out.println("testSkullTypeFromBlockState unknown playerhead");
+        out.println("testSkullTypeFromBlockState unknown playerhead");
         OfflinePlayer op = Mocks.getMockOfflinePlayer("3437cf83-c9b0-4709-a686-b8632b8d6172", "crashdemons");
         BlockState state = Mocks.getMockBlockState_PHead(op);
         assertEquals(SkullConverter.skullTypeFromBlockState(state),TexturedSkullType.PLAYER);
     }
     @Test
     public void testSkullTypeFromBlockState_SupportedPlayerhead(){
-        System.out.println("testSkullTypeFromBlockState supported playerhead");
+        out.println("testSkullTypeFromBlockState supported playerhead");
         String id = TexturedSkullType.ENDERMITE.getOwner().toString();
         OfflinePlayer op = Mocks.getMockOfflinePlayer(id, null);
         BlockState state = Mocks.getMockBlockState_PHead(op);
@@ -138,27 +141,27 @@ public class SkullConverterTest {
     }
     @Test
     public void testSkullTypeFromBlockState_VanillaHead(){
-        System.out.println("testSkullTypeFromBlockState not a head");
+        out.println("testSkullTypeFromBlockState not a head");
         BlockState state = Mocks.getMockBlockState_Skull();
         assertEquals(SkullConverter.skullTypeFromBlockState(state),TexturedSkullType.SKELETON);
     }
     
     @Test
     public void testSkullTypeFromBlockStateLegacy_NullPlayerhead(){
-        System.out.println("testSkullTypeFromBlockStateLegacy null playerhead");
+        out.println("testSkullTypeFromBlockStateLegacy null playerhead");
         BlockState state = Mocks.getMockBlockState_PHead(null);
         assertEquals(SkullConverter.skullTypeFromBlockStateLegacy(state),TexturedSkullType.PLAYER);
     }
     @Test
     public void testSkullTypeFromBlockStateLegacy_UnknownPlayerhead(){
-        System.out.println("testSkullTypeFromBlockStateLegacy unknown playerhead");
+        out.println("testSkullTypeFromBlockStateLegacy unknown playerhead");
         OfflinePlayer op = Mocks.getMockOfflinePlayer("3437cf83-c9b0-4709-a686-b8632b8d6172", "crashdemons");
         BlockState state = Mocks.getMockBlockState_PHead(op);
         assertEquals(SkullConverter.skullTypeFromBlockStateLegacy(state),TexturedSkullType.PLAYER);
     }
     @Test
     public void testSkullTypeFromBlockStateLegacy_SupportedLegacyPlayerhead(){
-        System.out.println("testSkullTypeFromBlockStateLegacy supported legacy playerhead");
+        out.println("testSkullTypeFromBlockStateLegacy supported legacy playerhead");
         OfflinePlayer op = Mocks.getMockOfflinePlayer("1bee9df5-4f71-42a2-bf52-d97970d3fea3", "MHF_Ocelot");
         BlockState state = Mocks.getMockBlockState_PHead(op);
         assertEquals(SkullConverter.skullTypeFromBlockStateLegacy(state),TexturedSkullType.OCELOT);

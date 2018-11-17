@@ -5,6 +5,7 @@
  */
 package com.github.crashdemons.playerheads.antispam;
 
+import com.github.crashdemons.playerheads.testutils.TestOutput;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -14,12 +15,13 @@ import static org.junit.Assert.*;
  */
 public class SpamResultTest {
     
+    private final TestOutput out=new TestOutput(this);
     public SpamResultTest() {
     }
 
     @Test
     public void testIsSpam() {
-        System.out.println("testSpamResult isSpam");
+        out.println("testSpamResult isSpam");
         SpamResult instance = new SpamResult(false);
         boolean expResult = false;
         boolean result = instance.isSpam();
@@ -28,7 +30,7 @@ public class SpamResultTest {
 
     @Test
     public void testToggle() {
-        System.out.println("testSpamResult toggle");
+        out.println("testSpamResult toggle");
         SpamResult instance = new SpamResult(false);
         instance.toggle();
         assertEquals(true, instance.isSpam());

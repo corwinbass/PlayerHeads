@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.github.crashdemons.playerheads;
+package com.github.crashdemons.playerheads.testutils;
 
 import com.github.crashdemons.playerheads.compatibility.Compatibility;
 import java.util.UUID;
@@ -28,6 +28,15 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Bukkit.class,Compatibility.class})
 abstract public class Mocks {
+    
+    public static void setupFakeServerVersion(){
+        try{
+            PowerMockito.mockStatic(Bukkit.class);
+            when(Bukkit.getVersion()).thenReturn("git-SomeWackyServerFork-4454-4ad3bc (MC: 1.13.1)");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
     
     public static void setupFakeServerSupport(){
         try{

@@ -5,6 +5,8 @@
  */
 package com.github.crashdemons.playerheads;
 
+import com.github.crashdemons.playerheads.testutils.Mocks;
+import com.github.crashdemons.playerheads.testutils.TestOutput;
 import com.github.crashdemons.playerheads.compatibility.Compatibility;
 import com.github.crashdemons.playerheads.compatibility.CompatibleSkullMaterial;
 //import com.github.crashdemons.playerheads.compatibility.craftbukkit_1_13.Provider;
@@ -31,6 +33,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @Ignore
 public class TexturedSkullTypeTest {
     
+    private final TestOutput out=new TestOutput(this);
     public TexturedSkullTypeTest() {
         //Provider x;
         Mocks.setupFakeServerSupport();
@@ -70,7 +73,7 @@ public class TexturedSkullTypeTest {
      */
     @Test
     public void testEntityCompatibility(){
-        System.out.println("testEntityCompatibility (skull maps to entity correctly)");
+        out.println("testEntityCompatibility (skull maps to entity correctly)");
         for(TexturedSkullType skull : TexturedSkullType.values()){
             EntityType type2 = EntityType.valueOf( skull.name().toUpperCase() );//throws IllegalArgumentException if conversion fails
         }
@@ -83,14 +86,14 @@ public class TexturedSkullTypeTest {
      */
     @Test
     public void testEntitySupport(){
-        System.out.println("testEntitySupport (entities map to skulls)");
+        out.println("testEntitySupport (entities map to skulls)");
         for(EntityType type : EntityType.values()){
             if(!type.isAlive()) continue;
             try{
                 TexturedSkullType type2 = TexturedSkullType.valueOf( type.name().toUpperCase() );
-                //System.out.println("Mob skull: "+type.name()+" <-> "+type2 +" vanillaitem?"+type2.hasDedicatedItem());
+                //out.println("Mob skull: "+type.name()+" <-> "+type2 +" vanillaitem?"+type2.hasDedicatedItem());
             }catch(Exception e){
-                System.out.println("   Mob skull missing for entity: "+type.name()+"  (nonfatal)");
+                out.println("   Mob skull missing for entity: "+type.name()+"  (nonfatal)");
             }
         }
     }
@@ -101,7 +104,7 @@ public class TexturedSkullTypeTest {
      */
     @Test
     public void testGet_UUID() {
-        System.out.println("get by UUID");
+        out.println("get by UUID");
         UUID owner = null;
         TexturedSkullType expResult = null;
         TexturedSkullType result = TexturedSkullType.get(owner);
@@ -113,7 +116,7 @@ public class TexturedSkullTypeTest {
      */
     @Test
     public void testGet_Material() {
-        System.out.println("get by Material");
+        out.println("get by Material");
         CompatibleSkullMaterial mat = null;
         TexturedSkullType expResult = null;
         TexturedSkullType result = TexturedSkullType.get(mat);
@@ -127,7 +130,7 @@ public class TexturedSkullTypeTest {
      */
     @Test
     public void testIsPlayerHead_Player() {
-        System.out.println("isPlayerHead with Player skull");
+        out.println("isPlayerHead with Player skull");
         boolean expResult;
         TexturedSkullType instance;
         boolean result;
@@ -145,7 +148,7 @@ public class TexturedSkullTypeTest {
      */
     @Test
     public void testIsPlayerHead_Nonvanilla() {
-        System.out.println("isPlayerHead with nonvanilla skull");
+        out.println("isPlayerHead with nonvanilla skull");
         boolean expResult;
         TexturedSkullType instance;
         boolean result;
@@ -165,7 +168,7 @@ public class TexturedSkullTypeTest {
      */
     @Test
     public void testIsPlayerHead_Vanilla() {
-        System.out.println("isPlayerHead with vanilla skull");
+        out.println("isPlayerHead with vanilla skull");
         boolean expResult;
         TexturedSkullType instance;
         boolean result;
@@ -182,7 +185,7 @@ public class TexturedSkullTypeTest {
      */
     @Test
     public void testHasDedicatedItem_Player() {
-        System.out.println("hasDedicatedItem with Player skull");
+        out.println("hasDedicatedItem with Player skull");
         
         boolean expResult;
         TexturedSkullType instance;
@@ -200,7 +203,7 @@ public class TexturedSkullTypeTest {
      */
     @Test
     public void testHasDedicatedItem_Nonvanilla() {
-        System.out.println("hasDedicatedItem with nonvanilla skull");
+        out.println("hasDedicatedItem with nonvanilla skull");
         
         boolean expResult;
         TexturedSkullType instance;
@@ -218,7 +221,7 @@ public class TexturedSkullTypeTest {
      */
     @Test
     public void testHasDedicatedItem_Vanilla() {
-        System.out.println("hasDedicatedItem with vanilla skull");
+        out.println("hasDedicatedItem with vanilla skull");
         
         boolean expResult;
         TexturedSkullType instance;

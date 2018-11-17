@@ -5,9 +5,9 @@
  */
 package org.shininet.bukkit.playerheads;
 
-import com.github.crashdemons.playerheads.Mocks;
+import com.github.crashdemons.playerheads.testutils.Mocks;
+import com.github.crashdemons.playerheads.testutils.TestOutput;
 import com.github.crashdemons.playerheads.TexturedSkullType;
-import com.github.crashdemons.playerheads.compatibility.Compatibility;
 import org.bukkit.Bukkit;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -23,13 +23,14 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @PrepareForTest({Bukkit.class})
 public class ConfigTest {
     
+    private final TestOutput out=new TestOutput(this);
     public ConfigTest() {
         Mocks.setupFakeServerSupport();
     }
 
     @Test
     public void testSkullConfigChanges() {
-        System.out.println("testSkullConfigChanges");
+        out.println("testSkullConfigChanges");
         for (TexturedSkullType skullType : TexturedSkullType.values()) {
                 if(skullType==TexturedSkullType.PLAYER) continue;
                 String oldconfig = skullType.name().replace("_", "").toLowerCase() + "droprate";

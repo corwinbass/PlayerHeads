@@ -5,7 +5,8 @@
  */
 package com.github.crashdemons.playerheads.antispam;
 
-import com.github.crashdemons.playerheads.Mocks;
+import com.github.crashdemons.playerheads.testutils.Mocks;
+import com.github.crashdemons.playerheads.testutils.TestOutput;
 import com.github.crashdemons.playerheads.antispam.InteractSpamPreventer;
 //import com.github.crashdemons.playerheads.compatibility.craftbukkit_1_13.Provider;
 import org.bukkit.Material;
@@ -28,6 +29,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @PrepareForTest(PlayerInteractEvent.class)
 public class InteractSpamPreventerTest {
     
+    private final TestOutput out=new TestOutput(this);
     public InteractSpamPreventerTest() {
         //Provider x;
     }
@@ -35,7 +37,7 @@ public class InteractSpamPreventerTest {
 
     @Test
     public void testRecordEvent_SameUserSpam() {
-        System.out.println("testRecordEvent SameUserSpam");
+        out.println("testRecordEvent SameUserSpam");
         PlayerInteractEvent mockEvent = PowerMockito.mock(PlayerInteractEvent.class);
         
         Player playerA = Mocks.getMockPlayer("3437cf83-c9b0-4709-a686-b8632b8d6172", "crashdemons", 1, 2, 3);
@@ -54,7 +56,7 @@ public class InteractSpamPreventerTest {
     }
     @Test
     public void testRecordEvent_SameUserNotSpam() {
-        System.out.println("testRecordEvent SameUserNotSpam");
+        out.println("testRecordEvent SameUserNotSpam");
         
         Player playerA = Mocks.getMockPlayer("3437cf83-c9b0-4709-a686-b8632b8d6172", "crashdemons", 1, 2, 3);
         
@@ -69,7 +71,7 @@ public class InteractSpamPreventerTest {
     }
     @Test
     public void testRecordEvent_MultipleUsersSameBlock_NotSpam() {
-        System.out.println("testRecordEvent MultipleUsersSameBlock_NotSpam");
+        out.println("testRecordEvent MultipleUsersSameBlock_NotSpam");
         
         
         InteractSpamPreventer antispam = new InteractSpamPreventer(5,1000);
