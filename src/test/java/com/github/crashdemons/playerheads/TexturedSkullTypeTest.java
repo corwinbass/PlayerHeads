@@ -45,9 +45,6 @@ public class TexturedSkullTypeTest {
     
     @AfterClass
     public static void tearDownClass() {
-        //these tasks aren't really test-related but there's not a better place to put them really.
-        //generateLangDefinitions();
-        //generateLangEntries();
     }
     
     @Before
@@ -233,70 +230,4 @@ public class TexturedSkullTypeTest {
         assertEquals(expResult, result);
         
     }
-    
-    
-
-    private static String camelCase(String str)
-    {
-        StringBuilder builder = new StringBuilder(str);
-        // Flag to keep track if last visited character is a 
-        // white space or not
-        boolean isLastSpace = true;
-
-        // Iterate String from beginning to end.
-        for(int i = 0; i < builder.length(); i++)
-        {
-                char ch = builder.charAt(i);
-
-                if(isLastSpace && ch >= 'a' && ch <='z')
-                {
-                        // Character need to be converted to uppercase
-                        builder.setCharAt(i, (char)(ch + ('A' - 'a') ));
-                        isLastSpace = false;
-                }else if (ch != ' ')
-                        isLastSpace = false;
-                else
-                        isLastSpace = true;
-        }
-
-        return builder.toString();
-    }
-    
-    public static void generateLangDefinitions(){
-        System.out.println("===========================================");
-        System.out.println("Generating Lang Definitions:");
-        System.out.println("===========================================");
-        for(EntityType type : EntityType.values()){
-            if(!type.isAlive()) continue;
-            if(type==EntityType.ARMOR_STAND || type==EntityType.PLAYER || type==EntityType.GIANT) continue;
-            String name=type.name();
-            String spaced = type.name().replace("_", " ").toLowerCase();
-            String spawn=type.name().replace("_", "").toLowerCase();
-            String caps = camelCase(spaced);
-            System.out.println("public static String HEAD_"+name+";");//+"="+caps+" Head");
-            System.out.println("public static String HEAD_SPAWN_"+name+";");//=#"+spawn);
-        }
-        System.out.println("===========================================");
-    }
-    
-    public static void generateLangEntries(){
-        System.out.println("===========================================");
-        System.out.println("Generating Lang Entrie: (needs manual editing for skulls)");
-        System.out.println("===========================================");
-        for(EntityType type : EntityType.values()){
-            if(!type.isAlive()) continue;
-            if(type==EntityType.ARMOR_STAND || type==EntityType.PLAYER || type==EntityType.GIANT) continue;
-            String name=type.name();
-            String spaced = type.name().replace("_", " ").toLowerCase();
-            String spawn=type.name().replace("_", "").toLowerCase();
-            String caps = camelCase(spaced);
-            System.out.println("HEAD_"+name+"="+caps+" Head");
-            System.out.println("HEAD_SPAWN_"+name+"=#"+spawn);
-        }
-        System.out.println("===========================================");
-    }
-    
-    
-    
-    
 }
