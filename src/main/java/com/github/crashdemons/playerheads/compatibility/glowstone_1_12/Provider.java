@@ -29,6 +29,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 //import net.glowstone.entity.meta.profile.GlowPlayerProfile;
 import net.glowstone.util.nbt.CompoundTag;
 import com.destroystokyo.paper.profile.*;
+import com.github.crashdemons.playerheads.compatibility.CompatibleSkullMaterial;
 import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 
@@ -135,21 +136,16 @@ public class Provider implements CompatibilityProvider {
     }
     
     private PlayerProfile createProfile(UUID uuid, String textures){
-        com.destroystokyo.paper.profile.PlayerProfile profile = Bukkit.createProfile(uuid,"X");
+        com.destroystokyo.paper.profile.PlayerProfile profile = Bukkit.createProfile(uuid);
         profile.setProperty(new ProfileProperty("textures",textures));
         
         profile.complete();
         return profile;
     }
     @Override public boolean setProfile(ItemMeta headMeta, UUID uuid, String texture){
-        //return ProfileUtils.setProfile(headMeta, uuid, texture);
-        //TODO: find glowstone implementations for texturing!
-        
-        /*OfflinePlayer op=Bukkit.getOfflinePlayer(uuid);
         SkullMeta skullMeta = (SkullMeta) headMeta;
-        skullMeta.setPlayerProfile(createProfile(uuid,texture));*/
-        //the above works but causes nbt errors when sending the data.
-        return false;
+        skullMeta.setPlayerProfile(createProfile(uuid,texture));//from paper interface/glowstone API
+        return true;
     }
     @Override public boolean setProfile(Skull headBlockState, UUID uuid, String texture){
         //return ProfileUtils.setProfile(headBlockState, uuid, texture);
