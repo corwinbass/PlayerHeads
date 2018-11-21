@@ -38,6 +38,8 @@ public class CompatibilityTest {
     public void testIsProviderAvailable() {
         out.println("isProviderAvailable");
         assertEquals(false, Compatibility.isProviderAvailable());
+        System.out.println(CompatibilitySupport.isFinalized());
+        System.out.println(CompatibilitySupport.versions.toString());
         Compatibility.init();
         assertEquals(true, Compatibility.isProviderAvailable());
     }

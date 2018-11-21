@@ -8,7 +8,6 @@ package com.github.crashdemons.playerheads.compatibility;
 import com.github.crashdemons.playerheads.compatibility.exceptions.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
 
 /**
  * Compatibility class controlling implementation and version support.
@@ -20,30 +19,12 @@ public class Compatibility {
     private Compatibility(){}
     
     private static CompatibilityProvider provider=null;
-    
-    private static final HashMap<String,Integer[][]> support;
 
     private final static String fallbackType="craftbukkit";
     
     
     private static Integer[] recommendedVersion=null;
     private static String recommendedType="";
-    
-    
-    static{
-        support=new HashMap<>();
-        support.put("craftbukkit", new Integer[][]{
-            {1,13},
-            {1,8}
-        });
-        support.put("glowstone", new Integer[][]{
-            {1,12}
-        });
-        support.put("faketestserver", new Integer[][]{//to enable testing
-            {1,13},
-            {1,0}
-        });
-    }
     
     /**
      * Initialize compatibility support.
@@ -59,6 +40,9 @@ public class Compatibility {
     public static synchronized boolean init() throws UnknownVersionException,CompatibilityUnsupportedException,CompatibilityUnavailableException,CompatibilityConflictException{ 
         Version.init();
         if(Version.checkUnder(1, 8)) throw new CompatibilityUnsupportedException("Server versions under 1.8 are not supported.");
+        
+        if(!CompatibilitySupport.isFinalized()) throw new CompatibilityMisconfiguredException("This project has been misconfigured - compatibility support was not present.");
+        
         boolean isUsingFallback = false;
         CompatibilityProvider bestprovider = loadRecommendedProvider();//load provider on best available version and matching type
         if(bestprovider==null){//if that provider isn't available, try any lower/equal version (with the matching type)
@@ -73,6 +57,10 @@ public class Compatibility {
         return !isUsingFallback;
     }
     
+    /**
+     * Determine if a compatibility implementation has been registered yet.
+     * @return whether a provider is available yet
+     */
     public static boolean isProviderAvailable(){
         return provider!=null;
     }
@@ -87,7 +75,7 @@ public class Compatibility {
      * @see #init() 
      */
     public static void registerProvider(CompatibilityProvider obj) throws CompatibilityConflictException{
-        if(provider!=null) throw new CompatibilityConflictException("This project has been misconfigured because multiple compatibility-providers were registered - only one is supported at a time.");
+        if(provider!=null) throw new CompatibilityConflictException("Multiple compatibility-providers were registered - only one is supported at a time.");
         provider=obj;
     }
     
@@ -125,7 +113,7 @@ public class Compatibility {
     
     private static String determineRecommendedType(){//MUST return a supported type key
         String nativeType = Version.getType();
-        if(support.keySet().contains(nativeType)) return nativeType;
+        if(CompatibilitySupport.versions.keySet().contains(nativeType)) return nativeType;
         switch(nativeType){
             //case "glowstone":
             //    throw new CompatibilityUnsupportedException("Glowstone servers are not supported by this build (missing authlib).");
@@ -136,7 +124,7 @@ public class Compatibility {
     
     private static CompatibilityProvider loadRecommendedProvider(){
         recommendedType=determineRecommendedType();
-        Integer[][] supportedVersions = support.get(recommendedType);
+        Integer[][] supportedVersions = CompatibilitySupport.versions.get(recommendedType);
         if(supportedVersions==null) return null;
         for(int i=0;i<supportedVersions.length;i++){
             Integer[] ver=supportedVersions[i];
@@ -153,7 +141,7 @@ public class Compatibility {
     }
     
     private static CompatibilityProvider loadFallbackProvider(String type){
-        Integer[][] supportedVersions = support.get(type);
+        Integer[][] supportedVersions = CompatibilitySupport.versions.get(type);
         if(supportedVersions==null) return null;
         for(int i=0;i<supportedVersions.length;i++){
             Integer[] ver=supportedVersions[i];
