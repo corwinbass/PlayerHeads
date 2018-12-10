@@ -27,6 +27,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 //import net.glowstone.entity.meta.profile.GlowPlayerProfile;
 import com.destroystokyo.paper.profile.*;
+import org.bukkit.entity.Ocelot;
 
 /**
  * CompatibilityProvider Implementation for 1.12 support.
@@ -93,6 +94,7 @@ public class Provider implements CompatibilityProvider {
     @Override public boolean isMobhead(ItemStack s){ SkullType t=getSkullType(s); return (t!=null && t!=SkullType.PLAYER);}
     @Override public boolean isMobhead(BlockState s){ SkullType t=getSkullType(s); return (t!=null && t!=SkullType.PLAYER);}
     @Override public String getCompatibleNameFromEntity(Entity e){
+        if(isLegacyCat(e)) return "CAT";
         if(Version.checkUnder(1, 11)){//skeleton and zombie variants were separated after 1.11, and have their own EntityType
             if(e instanceof Horse){
                 Horse.Variant var = ((Horse) e).getVariant();
@@ -160,5 +162,12 @@ public class Provider implements CompatibilityProvider {
         }catch(Exception e){
             return null;
         }
+    }
+    private boolean isLegacyCat(Entity e){
+        if(e instanceof Ocelot){
+            Ocelot eo = (Ocelot) e;
+            return eo.isTamed();
+        }
+        return false;
     }
 }
