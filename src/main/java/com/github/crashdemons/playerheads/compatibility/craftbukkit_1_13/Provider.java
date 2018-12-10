@@ -10,6 +10,7 @@ import com.github.crashdemons.playerheads.compatibility.CompatibilityProvider;
 import com.github.crashdemons.playerheads.compatibility.RuntimeReferences;
 import com.github.crashdemons.playerheads.compatibility.SkullDetails;
 import com.github.crashdemons.playerheads.compatibility.SkullType;
+import com.github.crashdemons.playerheads.compatibility.Version;
 import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
@@ -19,6 +20,7 @@ import org.bukkit.World;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Skull;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Ocelot;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -53,8 +55,12 @@ public class Provider implements CompatibilityProvider {
     @Override public boolean isPlayerhead(BlockState s){ return getSkullType(s)==SkullType.PLAYER; }
     @Override public boolean isMobhead(ItemStack s){ SkullType t=getSkullType(s); return (t!=null && t!=SkullType.PLAYER);}
     @Override public boolean isMobhead(BlockState s){ SkullType t=getSkullType(s); return (t!=null && t!=SkullType.PLAYER);}
-    @Override public String getCompatibleNameFromEntity(Entity e){ return e.getType().name().toUpperCase(); }
+    @Override public String getCompatibleNameFromEntity(Entity e){
+        if(Version.checkUnder(1, 14) && isLegacyCat(e)) return "CAT";
+        return e.getType().name().toUpperCase();
+    }
     @Override public OfflinePlayer getOfflinePlayerByName(String username){ return Bukkit.getOfflinePlayer(username); }
+    
     
     
     @Override public OfflinePlayer getOwningPlayer(SkullMeta skull){
@@ -100,4 +106,11 @@ public class Provider implements CompatibilityProvider {
     }
     
     
+    private boolean isLegacyCat(Entity e){
+        if(e instanceof Ocelot){
+            Ocelot eo = (Ocelot) e;
+            return eo.isTamed();
+        }
+        return false;
+    }
 }

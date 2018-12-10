@@ -4,7 +4,7 @@
     <groupId>org.shininet.bukkit</groupId>
     <artifactId>PlayerHeads-impl-craftbukkit-1.13</artifactId>
     <packaging>jar</packaging>
-    <version>4.7.4-SNAPSHOT</version>
+    <version>4.8.0-SNAPSHOT</version>
     <name>PlayerHeads-impl-craftbukkit-1.13</name>
 
     <organization>
