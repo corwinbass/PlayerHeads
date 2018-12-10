@@ -3,7 +3,7 @@
  *  License, v. 2.0. If a copy of the MPL was not distributed with this
  *  file, You can obtain one at http://mozilla.org/MPL/2.0/ .
  */
-package com.github.crashdemons.playerheads;
+package com.github.crashdemons.playerheads.compatibility;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
@@ -20,7 +20,6 @@ import org.bukkit.inventory.meta.SkullMeta;
  * @author crashdemons (crashenator at gmail.com)
  * @deprecated This class is server implementation-specific and should not be used directly if possible, the namespace may change in the future.
  */
-@Deprecated
 public class ProfileUtils {
     
     /**

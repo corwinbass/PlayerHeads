@@ -5,14 +5,11 @@
  */
 package com.github.crashdemons.playerheads.compatibility.faketestserver_1_0;
 
-import com.github.crashdemons.playerheads.ProfileUtils;
-import com.github.crashdemons.playerheads.compatibility.Compatibility;
 import com.github.crashdemons.playerheads.compatibility.CompatibilityProvider;
 import com.github.crashdemons.playerheads.compatibility.RuntimeReferences;
 import com.github.crashdemons.playerheads.compatibility.SkullDetails;
 import com.github.crashdemons.playerheads.compatibility.SkullType;
 import java.util.UUID;
-import org.bukkit.GameRule;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
