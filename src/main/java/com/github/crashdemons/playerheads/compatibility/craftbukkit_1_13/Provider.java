@@ -5,13 +5,13 @@
  */
 package com.github.crashdemons.playerheads.compatibility.craftbukkit_1_13;
 
-import com.github.crashdemons.playerheads.ProfileUtils;
-import com.github.crashdemons.playerheads.compatibility.Compatibility;
+import com.github.crashdemons.playerheads.compatibility.ProfileUtils;
 import com.github.crashdemons.playerheads.compatibility.CompatibilityProvider;
 import com.github.crashdemons.playerheads.compatibility.RuntimeReferences;
 import com.github.crashdemons.playerheads.compatibility.SkullDetails;
 import com.github.crashdemons.playerheads.compatibility.SkullType;
 import java.util.UUID;
+import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -54,6 +54,7 @@ public class Provider implements CompatibilityProvider {
     @Override public boolean isMobhead(ItemStack s){ SkullType t=getSkullType(s); return (t!=null && t!=SkullType.PLAYER);}
     @Override public boolean isMobhead(BlockState s){ SkullType t=getSkullType(s); return (t!=null && t!=SkullType.PLAYER);}
     @Override public String getCompatibleNameFromEntity(Entity e){ return e.getType().name().toUpperCase(); }
+    @Override public OfflinePlayer getOfflinePlayerByName(String username){ return Bukkit.getOfflinePlayer(username); }
     
     
     @Override public OfflinePlayer getOwningPlayer(SkullMeta skull){
