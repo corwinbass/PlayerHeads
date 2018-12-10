@@ -19,6 +19,7 @@ import org.bukkit.block.BlockState;
 import org.bukkit.block.Skull;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Horse;
+import org.bukkit.entity.Ocelot;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Skeleton.SkeletonType;
@@ -100,6 +101,7 @@ public class Provider implements CompatibilityProvider {
     @Override public boolean isMobhead(ItemStack s){ SkullType t=getSkullType(s); return (t!=null && t!=SkullType.PLAYER);}
     @Override public boolean isMobhead(BlockState s){ SkullType t=getSkullType(s); return (t!=null && t!=SkullType.PLAYER);}
     @Override public String getCompatibleNameFromEntity(Entity e){
+        if(isLegacyCat(e)) return "CAT";
         if(Version.checkUnder(1, 11)){//skeleton and zombie variants were separated after 1.11, and have their own EntityType
             if(e instanceof Horse){
                 Horse.Variant var = ((Horse) e).getVariant();
@@ -151,5 +153,12 @@ public class Provider implements CompatibilityProvider {
         }catch(Exception e){
             return null;
         }
+    }
+    private boolean isLegacyCat(Entity e){
+        if(e instanceof Ocelot){
+            Ocelot eo = (Ocelot) e;
+            return eo.isTamed();
+        }
+        return false;
     }
 }
