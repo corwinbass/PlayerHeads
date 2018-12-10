@@ -5,7 +5,6 @@
  */
 package com.github.crashdemons.playerheads.compatibility.glowstone_1_12;
 
-import com.github.crashdemons.playerheads.ProfileUtils;
 import com.github.crashdemons.playerheads.compatibility.CompatibilityProvider;
 import com.github.crashdemons.playerheads.compatibility.SkullDetails;
 import com.github.crashdemons.playerheads.compatibility.SkullType;
@@ -27,11 +26,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 //import net.glowstone.entity.meta.profile.GlowPlayerProfile;
-import net.glowstone.util.nbt.CompoundTag;
 import com.destroystokyo.paper.profile.*;
-import com.github.crashdemons.playerheads.compatibility.CompatibleSkullMaterial;
-import java.util.Arrays;
-import java.util.concurrent.CompletableFuture;
 
 /**
  * CompatibilityProvider Implementation for 1.12 support.
@@ -42,8 +37,8 @@ public class Provider implements CompatibilityProvider {
     public Provider(){}
     @Override public String getType(){ return "glowstone"; }
     @Override public String getVersion(){ return "1.12"; }
-    @Override public OfflinePlayer getOwningPlayerDirect(SkullMeta skullItemMeta){ return ProfileUtils.getProfilePlayer(skullItemMeta); }
-    @Override public OfflinePlayer getOwningPlayerDirect(Skull skullBlockState){ return ProfileUtils.getProfilePlayer(skullBlockState); }
+    @Override public OfflinePlayer getOwningPlayerDirect(SkullMeta skullItemMeta){ return skullItemMeta.getOwningPlayer(); }
+    @Override public OfflinePlayer getOwningPlayerDirect(Skull skullBlockState){ return skullBlockState.getOwningPlayer(); }
     @Override public String getOwnerDirect(SkullMeta skullItemMeta){ return skullItemMeta.getOwner(); }
     @Override public String getOwnerDirect(Skull skullBlockState){ return skullBlockState.getOwner(); }
     @Override public boolean setOwningPlayer(SkullMeta skullItemMeta, OfflinePlayer op){ return skullItemMeta.setOwner(op.getName()); }
@@ -69,16 +64,8 @@ public class Provider implements CompatibilityProvider {
         return adaptSkullType(skullState.getSkullType());
     }
     
-    @Override public OfflinePlayer getOwningPlayer(SkullMeta skull){
-        //OfflinePlayer op = getOwningPlayer(skull);//skullMeta.getOwningPlayer();
-        //if(op!=null) return op;
-        return ProfileUtils.getProfilePlayer(skull);//same method as above in 1.8 implementation
-    }
-    @Override public OfflinePlayer getOwningPlayer(Skull skull){
-        //OfflinePlayer op = getOwningPlayer(skull);//skullMeta.getOwningPlayer();
-        //if(op!=null) return op;
-        return ProfileUtils.getProfilePlayer(skull);//same method as above in 1.8 implementation
-    }
+    @Override public OfflinePlayer getOwningPlayer(SkullMeta skull){ return getOwningPlayerDirect(skull); }
+    @Override public OfflinePlayer getOwningPlayer(Skull skull){ return getOwningPlayerDirect(skull); }
     
     @Override public String getOwner(SkullMeta skull){
         String owner=null;
@@ -155,6 +142,7 @@ public class Provider implements CompatibilityProvider {
         //headBlockState.setPlayerProfile(createProfile(uuid,texture));// doesn't exist in this version of paper-api
         return false;
     }
+    @Override public OfflinePlayer getOfflinePlayerByName(String username){ return Bukkit.getOfflinePlayer(username); }
     
     
     
