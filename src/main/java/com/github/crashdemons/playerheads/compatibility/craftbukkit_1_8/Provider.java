@@ -5,12 +5,13 @@
  */
 package com.github.crashdemons.playerheads.compatibility.craftbukkit_1_8;
 
-import com.github.crashdemons.playerheads.ProfileUtils;
+import com.github.crashdemons.playerheads.compatibility.ProfileUtils;
 import com.github.crashdemons.playerheads.compatibility.CompatibilityProvider;
 import com.github.crashdemons.playerheads.compatibility.SkullDetails;
 import com.github.crashdemons.playerheads.compatibility.SkullType;
 import com.github.crashdemons.playerheads.compatibility.Version;
 import java.util.UUID;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
@@ -134,6 +135,7 @@ public class Provider implements CompatibilityProvider {
     @Override public boolean setProfile(Skull headBlockState, UUID uuid, String texture){
         return ProfileUtils.setProfile(headBlockState, uuid, texture);
     }
+    @Override public OfflinePlayer getOfflinePlayerByName(String username){ return Bukkit.getOfflinePlayer(username); }
     
     private SkullType adaptSkullType(org.bukkit.SkullType bukkitType){
         try{
