@@ -87,7 +87,7 @@ abstract public class Mocks {
         when(state.getType()).thenReturn(Material.STONE);
         return state;
     }
-    public static BlockState getMockBlockState_PHead(OfflinePlayer owningPlayer){
+    public static Skull getMockBlockState_PHead(OfflinePlayer owningPlayer){
         String name = null;
         if(owningPlayer!=null) name = owningPlayer.getName();
         Skull state = PowerMockito.mock(Skull.class);

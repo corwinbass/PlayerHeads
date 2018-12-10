@@ -8,15 +8,13 @@ package com.github.crashdemons.playerheads;
 //import com.github.crashdemons.playerheads.compatibility.craftbukkit_1_13.Provider;
 import com.github.crashdemons.playerheads.testutils.Mocks;
 import com.github.crashdemons.playerheads.testutils.TestOutput;
-import com.github.crashdemons.playerheads.compatibility.Compatibility;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.Skull;
 import org.bukkit.entity.EntityType;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -28,7 +26,6 @@ import org.shininet.bukkit.playerheads.LegacySkullType;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Bukkit.class})
-@Ignore
 public class SkullConverterTest {
     
     private final TestOutput out=new TestOutput(this);
@@ -136,7 +133,10 @@ public class SkullConverterTest {
         out.println("testSkullTypeFromBlockState supported playerhead");
         String id = TexturedSkullType.ENDERMITE.getOwner().toString();
         OfflinePlayer op = Mocks.getMockOfflinePlayer(id, null);
-        BlockState state = Mocks.getMockBlockState_PHead(op);
+        Skull state = Mocks.getMockBlockState_PHead(op);
+        OfflinePlayer op2 = state.getOwningPlayer();
+        System.out.println(op2.toString());
+        System.out.println(op2.getUniqueId()+" (original "+id+")");
         assertEquals(SkullConverter.skullTypeFromBlockState(state),TexturedSkullType.ENDERMITE);
     }
     @Test

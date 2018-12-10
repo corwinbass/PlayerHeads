@@ -30,8 +30,8 @@ public class Provider implements CompatibilityProvider {
     public Provider(){}
     @Override public String getType(){ return "faketestserver"; }
     @Override public String getVersion(){ return "1.0"; }
-    @Override public OfflinePlayer getOwningPlayerDirect(SkullMeta skullItemMeta){ return null; }
-    @Override public OfflinePlayer getOwningPlayerDirect(Skull skullBlockState){ return null; }
+    @Override public OfflinePlayer getOwningPlayerDirect(SkullMeta skullItemMeta){ return skullItemMeta.getOwningPlayer(); }
+    @Override public OfflinePlayer getOwningPlayerDirect(Skull skullBlockState){ return skullBlockState.getOwningPlayer(); }
     @Override public String getOwnerDirect(SkullMeta skullItemMeta){ return skullItemMeta.getOwner(); }
     @Override public String getOwnerDirect(Skull skullBlockState){ return skullBlockState.getOwner(); }
     @Override public boolean setOwningPlayer(SkullMeta skullItemMeta, OfflinePlayer op){ return false; }
@@ -55,10 +55,10 @@ public class Provider implements CompatibilityProvider {
     
     
     @Override public OfflinePlayer getOwningPlayer(SkullMeta skull){
-        return null;
+        return getOwningPlayerDirect(skull);
     }
     @Override public OfflinePlayer getOwningPlayer(Skull skull){
-        return null;
+        return getOwningPlayerDirect(skull);
     }
     
     
