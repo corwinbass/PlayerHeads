@@ -157,7 +157,7 @@ public final class SkullManager {
      */
     public static ItemStack PlayerSkull(String owner, int quantity, boolean addLore){
         if(owner==null || owner.isEmpty()) throw new IllegalArgumentException("Creating a playerhead with a null or empty username is not possible with this method.");
-        OfflinePlayer op = Bukkit.getOfflinePlayer(owner);
+        OfflinePlayer op = Compatibility.getProvider().getOfflinePlayerByName(owner);
         return PlayerSkull(op,quantity, addLore);
     }
     

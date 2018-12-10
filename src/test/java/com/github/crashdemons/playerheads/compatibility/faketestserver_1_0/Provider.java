@@ -54,6 +54,7 @@ public class Provider implements CompatibilityProvider {
     @Override public boolean isMobhead(ItemStack s){ SkullType t=getSkullType(s); return (t!=null && t!=SkullType.PLAYER);}
     @Override public boolean isMobhead(BlockState s){ SkullType t=getSkullType(s); return (t!=null && t!=SkullType.PLAYER);}
     @Override public String getCompatibleNameFromEntity(Entity e){ return e.getType().name().toUpperCase(); }
+    @Override public OfflinePlayer getOfflinePlayerByName(String username){ return null; }
     
     
     @Override public OfflinePlayer getOwningPlayer(SkullMeta skull){

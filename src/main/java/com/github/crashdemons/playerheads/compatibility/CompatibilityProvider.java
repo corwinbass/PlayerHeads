@@ -244,4 +244,10 @@ public interface CompatibilityProvider {
      * @return True: the profile was successfully set. False: the profile could not be set.
      */
     public boolean setProfile(Skull headBlockState, UUID uuid, String texture);
+    /**
+     * Gets a player by their username
+     * @param username the username of the player
+     * @return the offline-player
+     */
+    public OfflinePlayer getOfflinePlayerByName(String username);
 }
