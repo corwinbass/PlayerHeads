@@ -283,7 +283,7 @@ class PlayerHeadsListener implements Listener {
                 SkullMeta skull = (SkullMeta) stack.getItemMeta();
                 String owner = Compatibility.getProvider().getOwner(skull);//SkullConverter.getSkullOwner(skull);
                 if(owner==null) return;//you broke an unsupported custom-textured head. Question: should we instead just return to avoid modifying behavior?
-                newstack = SkullManager.PlayerSkull(owner,addLore);
+                newstack = SkullManager.PlayerSkull(owner,stack.getAmount(),addLore);
                 break;
             default:
                 boolean blockIsSkinnable = Compatibility.getProvider().isPlayerhead(stack);
@@ -291,8 +291,6 @@ class PlayerHeadsListener implements Listener {
                 break;
         }
         if(newstack==null) return;
-        plugin.logger.info("old: "+stack.getType().name()+" "+skullType.name()+" "+stack.getAmount());
-        plugin.logger.info("new: "+newstack.getType().name()+" "+skullType.name()+" "+newstack.getAmount());
         event.getEntity().setItemStack(newstack);
     }
     
@@ -312,7 +310,6 @@ class PlayerHeadsListener implements Listener {
             boolean conversionCanHappen = canConversionHappen(usevanillaskull,isSourceSkinnable);
             if(conversionCanHappen && !convertvanillahead)
                 usevanillaskull=!usevanillaskull;//change the drop to the state that avoids converting it.
-            System.out.println("ccmh: "+quantity);//TODO: remove
             return SkullManager.MobSkull(skullType,quantity,usevanillaskull,addLore);
     }
     
