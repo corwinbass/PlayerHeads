@@ -58,7 +58,7 @@ public class RuntimeReferencesTest {
         out.println("hasClass invalid");
         assertEquals(false,RuntimeReferences.hasClass("s0d0239uds2d.ClassNameHere"));
     }
-        @Test
+    @Test
     public void testHasClass_valid() {
         out.println("hasClass valid");
         assertEquals(true,RuntimeReferences.hasClass("org.shininet.bukkit.playerheads.events.PlayerDropHeadEvent"));
