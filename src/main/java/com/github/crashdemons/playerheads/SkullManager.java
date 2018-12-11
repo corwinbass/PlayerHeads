@@ -99,7 +99,9 @@ public final class SkullManager {
         }
         
         //System.out.println("Player-head");
+        System.out.println("smms: "+quantity);//TODO: remove
         ItemStack stack = mat.getDetails().createItemStack(quantity);//new ItemStack(mat,quantity);
+        System.out.println("smms-o: "+stack.getAmount());//TODO: remove
         SkullMeta headMeta = (SkullMeta) stack.getItemMeta();
         //applyOwningPlayer(headMeta,Bukkit.getOfflinePlayer(type.getOwner()));
         applyTexture(headMeta,type.getOwner(),type.getTexture());

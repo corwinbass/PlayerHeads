@@ -14,10 +14,6 @@ import java.util.logging.Logger;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -30,6 +26,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class PlayerHeads extends JavaPlugin implements Listener {
 
     private PlayerHeadsListener listener;
+    //private PlayerHeadsDraftListener draftListener=null;
     public Logger logger;
     public FileConfiguration configFile;
     private static boolean updateReady = false;
@@ -40,6 +37,8 @@ public final class PlayerHeads extends JavaPlugin implements Listener {
      * Used internally to enable or disable behavior in helper classes to improve compatibility with NCP.
      */
     public boolean NCPHook = false;
+    
+    //private final boolean hasBlockDropItemSupport;//whether the server has draft-API support
     
     private boolean compatibilityFailed=false;
     
@@ -89,6 +88,8 @@ public final class PlayerHeads extends JavaPlugin implements Listener {
     
     public PlayerHeads(){
         super();
+        //hasBlockDropItemSupport = RuntimeReferences.hasClass("org.bukkit.event.block.BlockDropItemEvent");
+        
     }
     
     @Override
@@ -118,7 +119,13 @@ public final class PlayerHeads extends JavaPlugin implements Listener {
 
         listener = new PlayerHeadsListener(this);
         PlayerHeadsCommandExecutor commandExecutor = new PlayerHeadsCommandExecutor(this);
-        getServer().getPluginManager().registerEvents(listener, this);
+        listener.registerAll();
+        /*if(hasBlockDropItemSupport){
+            logger.info("BlockDropItem support detected - registering");
+            draftListener = new PlayerHeadsDraftListener(listener,this);
+            draftListener.registerAll();
+        }
+        else logger.info("BlockDropItem not supported by this server");*/
         getCommand("PlayerHeads").setExecutor(commandExecutor);
         
         
@@ -130,10 +137,8 @@ public final class PlayerHeads extends JavaPlugin implements Listener {
      */
     @Override
     public void onDisable() {
-        EntityDeathEvent.getHandlerList().unregister(listener);
-        PlayerInteractEvent.getHandlerList().unregister(listener);
-        PlayerJoinEvent.getHandlerList().unregister(listener);
-        BlockBreakEvent.getHandlerList().unregister(listener);
+        //if(hasBlockDropItemSupport && draftListener!=null) draftListener.unregisterAll();
+        listener.unregisterAll();
     }
     
     public void onConfigReloaded(){

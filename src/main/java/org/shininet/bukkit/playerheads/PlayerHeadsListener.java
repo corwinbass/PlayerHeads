@@ -10,7 +10,6 @@ import com.github.crashdemons.playerheads.SkullManager;
 import com.github.crashdemons.playerheads.TexturedSkullType;
 import com.github.crashdemons.playerheads.antispam.PlayerDeathSpamPreventer;
 import com.github.crashdemons.playerheads.compatibility.Compatibility;
-import com.github.crashdemons.playerheads.compatibility.CompatibilityProvider;
 
 import java.util.List;
 import java.util.Random;
@@ -41,6 +40,10 @@ import org.shininet.bukkit.playerheads.events.PlayerDropHeadEvent;
 import fr.neatmonster.nocheatplus.checks.CheckType;
 import fr.neatmonster.nocheatplus.hooks.NCPExemptionManager;
 import java.util.function.Predicate;
+import org.bukkit.event.block.BlockEvent;
+import org.bukkit.event.entity.ItemSpawnEvent;
+import org.bukkit.inventory.meta.SkullMeta;
+import org.shininet.bukkit.playerheads.events.BlockDropHeadEvent;
 
 /**
  * Defines a listener for playerheads events.
@@ -55,6 +58,16 @@ class PlayerHeadsListener implements Listener {
     private final PlayerHeads plugin;
     private volatile InteractSpamPreventer clickSpamPreventer;
     private volatile PlayerDeathSpamPreventer deathSpamPreventer;
+    
+    public void registerAll(){
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    }
+    public void unregisterAll(){
+        EntityDeathEvent.getHandlerList().unregister(this);
+        PlayerInteractEvent.getHandlerList().unregister(this);
+        PlayerJoinEvent.getHandlerList().unregister(this);
+        BlockBreakEvent.getHandlerList().unregister(this);
+    }
     
     private final Predicate<ItemStack> isVanillaHead = new Predicate<ItemStack>(){//we only need this because of java 7 support
         @Override
@@ -256,6 +269,81 @@ class PlayerHeadsListener implements Listener {
             
         }
     }
+    
+    @EventHandler(ignoreCancelled=true)
+    public void onItemSpawnEvent(ItemSpawnEvent event){
+        ItemStack stack = event.getEntity().getItemStack();
+        //Location location = event.getEntity().getLocation();
+        TexturedSkullType skullType = SkullConverter.skullTypeFromItemStackLegacy(stack);
+        if(skullType==null) return;
+        ItemStack newstack = null;
+        boolean addLore = plugin.configFile.getBoolean("addlore");
+        switch(skullType){
+            case PLAYER:
+                SkullMeta skull = (SkullMeta) stack.getItemMeta();
+                String owner = Compatibility.getProvider().getOwner(skull);//SkullConverter.getSkullOwner(skull);
+                if(owner==null) return;//you broke an unsupported custom-textured head. Question: should we instead just return to avoid modifying behavior?
+                newstack = SkullManager.PlayerSkull(owner,addLore);
+                break;
+            default:
+                boolean blockIsSkinnable = Compatibility.getProvider().isPlayerhead(stack);
+                newstack = createConvertedMobhead(skullType, blockIsSkinnable, addLore, stack.getAmount());
+                break;
+        }
+        if(newstack==null) return;
+        plugin.logger.info("old: "+stack.getType().name()+" "+skullType.name()+" "+stack.getAmount());
+        plugin.logger.info("new: "+newstack.getType().name()+" "+skullType.name()+" "+newstack.getAmount());
+        event.getEntity().setItemStack(newstack);
+    }
+    
+    //can conversion of an item occur depending on if the skull was skinned and dropvanillahead flag (if passed directly)?
+    private static boolean canConversionHappen(boolean dropVanillaHeads, boolean isSourceSkinnable){
+        //if the head is a skinned playerhead and usevanillaskull is set, then breaking it would convert it to a vanilla head
+        //if the head is a vanilla skull/head and usevanillaskull is unset, then breaking would convert it to a skinned head
+        return (isSourceSkinnable && dropVanillaHeads) || (!isSourceSkinnable && !dropVanillaHeads);
+    }
+    
+    private ItemStack createConvertedMobhead(TexturedSkullType skullType, boolean isSourceSkinnable, boolean addLore, int quantity){
+            boolean usevanillaskull = plugin.configFile.getBoolean("dropvanillaheads");
+            boolean convertvanillahead = plugin.configFile.getBoolean("convertvanillaheads");
+
+            //if the head is a skinned playerhead and usevanillaskull is set, then breaking it would convert it to a vanilla head
+            //if the head is a vanilla skull/head and usevanillaskull is unset, then breaking would convert it to a skinned head
+            boolean conversionCanHappen = canConversionHappen(usevanillaskull,isSourceSkinnable);
+            if(conversionCanHappen && !convertvanillahead)
+                usevanillaskull=!usevanillaskull;//change the drop to the state that avoids converting it.
+            System.out.println("ccmh: "+quantity);//TODO: remove
+            return SkullManager.MobSkull(skullType,quantity,usevanillaskull,addLore);
+    }
+    
+    
+    //drop a head based on a block being broken in some fashion
+    private boolean blockDrop(BlockEvent event, Block block, BlockState state){
+        TexturedSkullType skullType = SkullConverter.skullTypeFromBlockStateLegacy(state);
+        Location location = block.getLocation();
+        ItemStack item = null;
+        boolean addLore = plugin.configFile.getBoolean("addlore");
+        switch(skullType){
+            case PLAYER:
+                Skull skull = (Skull) block.getState();
+                String owner = Compatibility.getProvider().getOwner(skull);//SkullConverter.getSkullOwner(skull);
+                if(owner==null) return false;//you broke an unsupported custom-textured head. Question: should we instead just return to avoid modifying behavior?
+                item = SkullManager.PlayerSkull(owner,addLore);
+                break;
+            default:
+                boolean blockIsSkinnable = Compatibility.getProvider().isPlayerhead(block.getState());
+                item = createConvertedMobhead(skullType, blockIsSkinnable, addLore, Config.defaultStackSize);
+                break;
+        }
+        block.setType(Material.AIR);
+        BlockDropHeadEvent newEvent = new BlockDropHeadEvent(block,item);
+        plugin.getServer().getPluginManager().callEvent(newEvent);
+        if(newEvent.isCancelled()) return false;
+        location.getWorld().dropItemNaturally(location, item);
+        return true;
+    }
+    
+
 
     /**
      * Event handler for player block-break events.
@@ -299,33 +387,8 @@ class PlayerHeadsListener implements Listener {
                 if (fakebreak.isCancelled()) {
                     event.setCancelled(true);
                 } else {
-                    Location location = block.getLocation();
-                    ItemStack item = null;
-                    boolean addLore = plugin.configFile.getBoolean("addlore");
-                    switch(skullType){
-                        case PLAYER:
-                            Skull skull = (Skull) block.getState();
-                            String owner = Compatibility.getProvider().getOwner(skull);//SkullConverter.getSkullOwner(skull);
-                            if(owner==null) return;//you broke an unsupported custom-textured head. Question: should we instead just return to avoid modifying behavior?
-                            item = SkullManager.PlayerSkull(owner,addLore);
-                            break;
-                        default:
-                            boolean blockIsSkinnable = Compatibility.getProvider().isPlayerhead(block.getState());
-                            boolean usevanillaskull = plugin.configFile.getBoolean("dropvanillaheads");
-                            boolean convertvanillahead = plugin.configFile.getBoolean("convertvanillaheads");
-                            
-                            //if the head is a skinned playerhead and usevanillaskull is set, then breaking it would convert it to a vanilla head
-                            //if the head is a vanilla skull/head and usevanillaskull is unset, then breaking would convert it to a skinned head
-                            boolean conversionCanHappen = (blockIsSkinnable && usevanillaskull) || (!blockIsSkinnable && !usevanillaskull);
-                            if(conversionCanHappen && !convertvanillahead)
-                                usevanillaskull=!usevanillaskull;//change the drop to the state that avoids converting it.
-                            item = SkullManager.MobSkull(skullType,usevanillaskull,addLore);
-                            break;
-                    }
-
                     event.setCancelled(true);
-                    block.setType(Material.AIR);
-                    location.getWorld().dropItemNaturally(location, item);
+                    blockDrop(event,block,state);
                 }
             }
             
