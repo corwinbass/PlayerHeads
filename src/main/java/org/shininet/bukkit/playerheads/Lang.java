@@ -282,6 +282,11 @@ public final class Lang {
     @Deprecated
     public static String HEAD_SPAWN_ILLAGER_BEAST;
     
+    public static String HEAD_ARMOR_STAND;
+    public static String HEAD_GIANT;
+    public static String HEAD_SPAWN_ARMOR_STAND;
+    public static String HEAD_SPAWN_GIANT;
+    
     
     public static String OPT_AMOUNT_OPTIONAL;
     public static String OPT_HEADNAME_OPTIONAL;
