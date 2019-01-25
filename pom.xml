@@ -4,7 +4,7 @@
     <groupId>org.shininet.bukkit</groupId>
     <artifactId>PlayerHeads-core</artifactId>
     <packaging>jar</packaging>
-    <version>4.8.6-SNAPSHOT</version>
+    <version>4.8.7-SNAPSHOT</version>
     <name>PlayerHeads-core</name>
 
     <organization>
@@ -52,6 +52,10 @@
         <repository>
             <id>md_5-releases</id>
             <url>http://repo.md-5.net/content/repositories/releases/</url>
+        </repository>
+        <repository>
+            <id>crashdemons-repo</id>
+            <url>https://meme.tips/java-repos/</url>
         </repository>
     </repositories>
 
@@ -116,6 +120,12 @@
                     <artifactId>craftbukkit</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>net.Indyuce</groupId>
+            <artifactId>BountyHunters</artifactId>
+            <version>2.2</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
 

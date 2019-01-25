@@ -10,6 +10,7 @@ import com.github.crashdemons.playerheads.SkullManager;
 import com.github.crashdemons.playerheads.TexturedSkullType;
 import com.github.crashdemons.playerheads.antispam.PlayerDeathSpamPreventer;
 import com.github.crashdemons.playerheads.compatibility.Compatibility;
+import com.github.crashdemons.playerheads.compatibility.CompatiblePlugins;
 
 import java.util.List;
 import java.util.Random;
@@ -128,6 +129,13 @@ class PlayerHeadsListener implements Listener {
         Double dropchance = prng.nextDouble();
         Player player = (Player) event.getEntity();
         Player killer = event.getEntity().getKiller();
+        
+        if(!plugin.configFile.getBoolean("dropbountyheads")){
+            if(CompatiblePlugins.BountyHunters.hasBounty(player)){
+                return;
+            }
+        }
+
         
         if(!player.hasPermission("playerheads.canlosehead")) return;
         if(killer!=null){//player was PK'd, so killer permissions apply.

@@ -8,7 +8,7 @@ api-version: 1.13
 main: org.shininet.bukkit.playerheads.PlayerHeads
 database: false
 
-softdepend: [NoCheatPlus]
+softdepend: [NoCheatPlus,BountyHunters]
 
 commands:
   PlayerHeads:

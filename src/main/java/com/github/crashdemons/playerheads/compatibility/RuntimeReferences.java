@@ -5,6 +5,7 @@
  */
 package com.github.crashdemons.playerheads.compatibility;
 
+import java.lang.reflect.Method;
 import org.bukkit.Material;
 
 /**
@@ -33,6 +34,25 @@ public class RuntimeReferences {
         }catch(IllegalArgumentException e){
             return null;
         }
+    }
+    public static Class<?> getClass(String classname){
+        try {
+            return Class.forName(classname);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    public static Method getMethod(Class<?> classobj, String methodname, Class<?>... parameterTypes){
+        try{
+            return classobj.getMethod(methodname, parameterTypes);
+        }catch(Exception e){
+            return null;
+        }
+    }
+    public static Method getMethod(String classname, String methodname,Class<?>... parameterTypes){
+        Class<?> classobj = getClass(classname);
+        if(classobj==null) return null;
+        return getMethod(classobj,methodname,parameterTypes);
     }
     public static boolean hasClass(String classname){
         try {

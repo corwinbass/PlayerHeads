@@ -56,6 +56,7 @@ public final class Config {
             put("clickspamthreshold", configType.LONG);
             put("deathspamcount", configType.INT);
             put("deathspamthreshold", configType.LONG);
+            put("dropbountyheads", configType.BOOLEAN);
         }
     };
     /**

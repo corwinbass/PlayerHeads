@@ -78,6 +78,7 @@
 # clickspamthreshold: 1000      [positive int]  Amount of miliseconds to match click interactions for spam  (version 4.7+)
 # deathspamamount: 5            [positive int]  Number of player deaths to record and check for spam  (version 4.7+)
 # deathspamthreshold: 300000    [positive int]  Amount of miliseconds to match player deaths for spam  (version 4.7+)
+# dropbountyheads: false         [true/false]    Enable/disable drop when the player killed is marked as a bounty by Indyuce's BountyHunters plugin. (4.8.7+)
 
 pkonly: true
 droprate: 0.05
@@ -97,6 +98,7 @@ clickspamcount: 5
 clickspamthreshold: 1000
 deathspamcount: 5
 deathspamthreshold: 300000
+dropbountyheads: false
 
 creeperdroprate: 0.005
 zombiedroprate: 0.002

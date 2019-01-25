@@ -39,6 +39,7 @@ public class Compatibility {
      */
     public static synchronized boolean init() throws UnknownVersionException,CompatibilityUnsupportedException,CompatibilityUnavailableException,CompatibilityConflictException{ 
         Version.init();
+        CompatiblePlugins.init();
         if(Version.checkUnder(1, 8)) throw new CompatibilityUnsupportedException("Server versions under 1.8 are not supported.");
         
         if(!CompatibilitySupport.isFinalized()) throw new CompatibilityMisconfiguredException("This project has been misconfigured - compatibility support was not present.");
