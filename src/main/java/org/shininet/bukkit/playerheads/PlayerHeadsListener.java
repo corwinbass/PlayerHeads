@@ -92,7 +92,7 @@ class PlayerHeadsListener implements Listener {
      * Used to determine when heads should be dropped.
      * @param event the event received
      */
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.HIGH)
     public void onEntityDeath(EntityDeathEvent event) {
         Player killer = event.getEntity().getKiller();
         double lootingrate = 1;
