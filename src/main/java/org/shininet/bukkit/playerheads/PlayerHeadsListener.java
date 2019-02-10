@@ -158,7 +158,14 @@ class PlayerHeadsListener implements Listener {
         }
         
         boolean addLore = plugin.configFile.getBoolean("addlore");
-        ItemStack drop = SkullManager.PlayerSkull(skullOwner,addLore);
+        
+        ItemStack drop;
+        if(skullOwner.isEmpty()){
+            drop = SkullManager.PlayerSkull(addLore);
+        }else{
+            drop = SkullManager.PlayerSkull(skullOwner,addLore);
+        }
+        
         PlayerDropHeadEvent dropHeadEvent = new PlayerDropHeadEvent(player, drop);
         plugin.getServer().getPluginManager().callEvent(dropHeadEvent);
         if (dropHeadEvent.isCancelled()) {

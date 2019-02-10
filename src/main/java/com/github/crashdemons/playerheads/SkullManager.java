@@ -120,12 +120,33 @@ public final class SkullManager {
             applyOwningPlayer(headMeta,owner);
             name = owner.getName();
         }
-        if(name==null) name="Unknown";//only used for display purposes.
+        if(name==null) name="Player";//only used for display purposes.
         applyDisplayName(headMeta,ChatColor.RESET + "" + ChatColor.YELLOW + TexturedSkullType.getDisplayName(name));
         //System.out.println("DEBUG: addlore "+addLore);
         if(addLore) applyLore(headMeta,ChatColor.RED+Lang.LORE_HEAD_PLAYER);
         stack.setItemMeta(headMeta);
         return stack;
+    }
+    
+    /**
+     * Creates a stack of playerheads for no owner
+     *  
+     * @param addLore controls whether any lore text should be added to the head.
+     * @return The ItemStack of heads desired.
+     */
+    public static ItemStack PlayerSkull(boolean addLore){
+        return PlayerSkull(Config.defaultStackSize,addLore);
+    }
+    
+    /**
+     * Creates a stack of playerheads for no owner
+     *  
+     * @param quantity The number of heads to create in the stack.
+     * @param addLore controls whether any lore text should be added to the head.
+     * @return The ItemStack of heads desired.
+     */
+    public static ItemStack PlayerSkull(int quantity, boolean addLore){
+        return PlayerSkull((OfflinePlayer) null,quantity, addLore);
     }
     
     /**
